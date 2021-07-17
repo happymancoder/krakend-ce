@@ -11,7 +11,7 @@ require (
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
 	github.com/devopsfaith/bloomfilter v1.4.0
 	github.com/devopsfaith/flatmap v0.0.0-20200601181759-8521186182fc // indirect
-	github.com/devopsfaith/krakend v1.2.0 // indirect
+	github.com/devopsfaith/krakend v1.2.0
 	github.com/devopsfaith/krakend-amqp v1.4.0
 	github.com/devopsfaith/krakend-botdetector v1.4.0
 	github.com/devopsfaith/krakend-cel v1.4.0

@@ -504,6 +504,7 @@ github.com/devopsfaith/krakend v1.1.0/go.mod h1:xM0O7nJcXuJWWL0PollS0NFBQLf1KJgA
 github.com/devopsfaith/krakend v1.1.1/go.mod h1:xM0O7nJcXuJWWL0PollS0NFBQLf1KJgA1BI2XAPgdmo=
 github.com/devopsfaith/krakend v1.1.2-0.20200605160540-40b5d80a5807/go.mod h1:b8i/JCI1/iFjg7w9tvg3QFpT5Tc6Qy/75nj+i5dhPCA=
 github.com/devopsfaith/krakend v1.1.2-0.20200826121428-f41e024bd50a/go.mod h1:b8i/JCI1/iFjg7w9tvg3QFpT5Tc6Qy/75nj+i5dhPCA=
+github.com/devopsfaith/krakend v1.2.0 h1:aMxU1GA61s3ryz/d4lbUPIFrUsAqS5mMoDJJHwPdPwU=
 github.com/devopsfaith/krakend v1.2.0/go.mod h1:b8i/JCI1/iFjg7w9tvg3QFpT5Tc6Qy/75nj+i5dhPCA=
 github.com/devopsfaith/krakend-amqp v1.1.0 h1:mWTfMUrRq6zj4w+N70HL/f5xhgclc95JbQHrg7whBGA=
 github.com/devopsfaith/krakend-amqp v1.1.0/go.mod h1:zhWeDJB1F6GCx9mngyCP+jBr8gdRJV4gOVDySAzmD94=
