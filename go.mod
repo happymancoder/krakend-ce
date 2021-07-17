@@ -41,6 +41,7 @@ require (
 	github.com/devopsfaith/krakend-usage v1.4.0
 	github.com/devopsfaith/krakend-viper v1.4.0
 	github.com/devopsfaith/krakend-xml v1.4.0
+	github.com/dimfeld/httptreemux v5.0.1+incompatible
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-contrib/uuid v1.2.0
 	github.com/google/btree v1.0.0 // indirect
