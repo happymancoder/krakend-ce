@@ -11,13 +11,13 @@ import (
 	krakendbf "github.com/devopsfaith/bloomfilter/krakend"
 	cel "github.com/devopsfaith/krakend-cel"
 	cmd "github.com/devopsfaith/krakend-cobra"
-	cors "github.com/devopsfaith/krakend-cors/gin"
+	cors "github.com/devopsfaith/krakend-cors/mux"
 	gelf "github.com/devopsfaith/krakend-gelf"
 	gologging "github.com/devopsfaith/krakend-gologging"
 	influxdb "github.com/devopsfaith/krakend-influx"
 	jose "github.com/devopsfaith/krakend-jose"
 	logstash "github.com/devopsfaith/krakend-logstash"
-	metrics "github.com/devopsfaith/krakend-metrics/gin"
+	metrics "github.com/devopsfaith/krakend-metrics/mux"
 	opencensus "github.com/devopsfaith/krakend-opencensus"
 	_ "github.com/devopsfaith/krakend-opencensus/exporter/datadog"
 	_ "github.com/devopsfaith/krakend-opencensus/exporter/influxdb"
@@ -30,13 +30,15 @@ import (
 	pubsub "github.com/devopsfaith/krakend-pubsub"
 	"github.com/devopsfaith/krakend-usage/client"
 	"github.com/gin-gonic/gin"
+
+	//"github.com/gin-gonic/gin"
 	"github.com/go-contrib/uuid"
 	"github.com/luraproject/lura/config"
 	"github.com/luraproject/lura/core"
 	"github.com/luraproject/lura/logging"
 	"github.com/luraproject/lura/proxy"
 	krakendrouter "github.com/luraproject/lura/router"
-	router "github.com/luraproject/lura/router/gin"
+	router "github.com/luraproject/lura/router/mux"
 	server "github.com/luraproject/lura/transport/http/server/plugin"
 )
 
@@ -73,9 +75,9 @@ type MetricsAndTracesRegister interface {
 }
 
 // EngineFactory returns a gin engine, ready to be passed to the KrakenD RouterFactory
-type EngineFactory interface {
-	NewEngine(config.ServiceConfig, logging.Logger, io.Writer) *gin.Engine
-}
+// type EngineFactory interface {
+// 	NewEngine(config.ServiceConfig, logging.Logger, io.Writer) *gin.Engine
+// }
 
 // ProxyFactory returns a KrakenD proxy factory, ready to be passed to the KrakenD RouterFactory
 type ProxyFactory interface {
@@ -112,11 +114,11 @@ type ExecutorBuilder struct {
 	SubscriberFactoriesRegister SubscriberFactoriesRegister
 	TokenRejecterFactory        TokenRejecterFactory
 	MetricsAndTracesRegister    MetricsAndTracesRegister
-	EngineFactory               EngineFactory
-	ProxyFactory                ProxyFactory
-	BackendFactory              BackendFactory
-	HandlerFactory              HandlerFactory
-	RunServerFactory            RunServerFactory
+	//EngineFactory               EngineFactory
+	ProxyFactory     ProxyFactory
+	BackendFactory   BackendFactory
+	HandlerFactory   HandlerFactory
+	RunServerFactory RunServerFactory
 
 	Middlewares []gin.HandlerFunc
 }
@@ -156,7 +158,7 @@ func (e *ExecutorBuilder) NewCmdExecutor(ctx context.Context) cmd.Executor {
 
 		// setup the krakend router
 		routerFactory := router.NewFactory(router.Config{
-			Engine: e.EngineFactory.NewEngine(cfg, logger, gelfWriter),
+			Engine: router.DefaultEngine(),
 			ProxyFactory: e.ProxyFactory.NewProxyFactory(
 				logger,
 				e.BackendFactory.NewBackendFactory(ctx, logger, metricCollector),
