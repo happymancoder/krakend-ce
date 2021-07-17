@@ -11,6 +11,7 @@ import (
 	opencensus "github.com/devopsfaith/krakend-opencensus/router/mux"
 	krakendrate "github.com/devopsfaith/krakend-ratelimit"
 	"github.com/devopsfaith/krakend-ratelimit/juju"
+	jujurouter "github.com/devopsfaith/krakend-ratelimit/juju/router"
 	"github.com/devopsfaith/krakend/router/httptreemux"
 	"github.com/luraproject/lura/config"
 	"github.com/luraproject/lura/logging"
