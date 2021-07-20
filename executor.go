@@ -30,13 +30,13 @@ import (
 	_ "github.com/devopsfaith/krakend-opencensus/exporter/zipkin"
 	pubsub "github.com/devopsfaith/krakend-pubsub"
 	"github.com/devopsfaith/krakend-usage/client"
-	"github.com/devopsfaith/krakend/router/httptreemux"
 	"github.com/go-contrib/uuid"
 	"github.com/luraproject/lura/config"
 	"github.com/luraproject/lura/core"
 	"github.com/luraproject/lura/logging"
 	"github.com/luraproject/lura/proxy"
 	krakendrouter "github.com/luraproject/lura/router"
+	"github.com/luraproject/lura/router/httptreemux"
 	router "github.com/luraproject/lura/router/mux"
 	server "github.com/luraproject/lura/transport/http/server/plugin"
 )
@@ -75,7 +75,7 @@ type MetricsAndTracesRegister interface {
 
 // EngineFactory returns a mux engine, ready to be passed to the KrakenD RouterFactory
 type EngineFactory interface {
-	NewEngine(config.ServiceConfig, logging.Logger, io.Writer) httptreemux.Engine
+	NewEngine(config.ServiceConfig, logging.Logger, io.Writer) GorillaEngine
 }
 
 // ProxyFactory returns a KrakenD proxy factory, ready to be passed to the KrakenD RouterFactory

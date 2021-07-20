@@ -1,0 +1,11 @@
+{
+    "endpoint": "/_diagnostics/heartbeat",
+    "backend": [
+        {
+            "url_pattern": "/__health",
+            "host": [
+                "http://localhost:8080"
+            ]
+        }
+    ]
+}

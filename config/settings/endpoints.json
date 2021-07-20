@@ -1,0 +1,678 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "/v1/me/permissions",
+            "method": "GET",
+            "host": "https://permission.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/{JWT.sub}/permissions",
+            "internal_scope": "internal.permissions.user",
+            "public_scopes": [
+                "user.permissions"
+            ]
+        },
+        {
+            "endpoint": "/v1/objects",
+            "method": "GET",
+            "querystring_params": [
+                "id",
+                "query",
+                "shareId"
+            ],
+            "host": "https://objects.api.stg.cvnet.io",
+            "url_pattern": "/v1/objects?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.objects.read",
+            "public_scopes": [
+                "objects.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/objects/{id}",
+            "method": "GET",
+            "querystring_params": [
+                "query",
+                "shareId"
+            ],
+            "host": "https://objects.api.stg.cvnet.io",
+            "url_pattern": "/v1/objects/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.objects.read",
+            "public_scopes": [
+                "objects.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/objects/{id}/{memberType}",
+            "method": "GET",
+            "querystring_params": [
+                "query",
+                "cursor",
+                "shareId"
+            ],
+            "host": "https://objects.api.stg.cvnet.io",
+            "url_pattern": "/v1/objects/{id}/{memberType}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.objects.read",
+            "public_scopes": [
+                "objects.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/objects/{id}/{memberType}",
+            "method": "POST",
+            "host": "https://objects.api.stg.cvnet.io",
+            "url_pattern": "/v1/objects/{id}/{memberType}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.objects.write",
+            "public_scopes": [
+                "objects.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/objects/{id}",
+            "method": "PUT",
+            "host": "https://objects.api.stg.cvnet.io",
+            "url_pattern": "/v1/objects/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.objects.write",
+            "public_scopes": [
+                "objects.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/objects/{id}/{memberName}",
+            "method": "DELETE",
+            "querystring_params": [
+                "memberId"
+            ],
+            "host": "https://objects.api.stg.cvnet.io",
+            "url_pattern": "/v1/objects/{id}/{memberName}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.objects.write",
+            "public_scopes": [
+                "objects.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/objects/{id}",
+            "method": "DELETE",
+            "host": "https://objects.api.stg.cvnet.io",
+            "url_pattern": "/v1/objects/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.objects.write",
+            "public_scopes": [
+                "objects.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/playlists/copy",
+            "method": "POST",
+            "host": "https://objects.api.stg.cvnet.io",
+            "url_pattern": "/v1/playlists/copy?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.objects.write",
+            "public_scopes": [
+                "objects.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/users",
+            "method": "POST",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/users/delete",
+            "method": "POST",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/users/validate",
+            "method": "POST",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/validate?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.read",
+            "public_scopes": [
+                "users.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/users",
+            "method": "PUT",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/users/update-status",
+            "method": "PUT",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/update-status?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/users/send-account-reminder",
+            "method": "POST",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/send-account-reminder?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/users/send-activation-email",
+            "method": "POST",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/send-activation-email?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/customers/{id}/users",
+            "method": "GET",
+            "querystring_params": [
+                "query",
+                "cursor"
+            ],
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/customers/{id}/users?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.read",
+            "public_scopes": [
+                "users.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/customers/{id}/yeargroups",
+            "method": "GET",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/customers/{id}/yeargroups?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.read",
+            "public_scopes": [
+                "users.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/users/{id}",
+            "method": "GET",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.read",
+            "public_scopes": [
+                "users.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/userprofile/avatar",
+            "method": "PUT",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/avatar?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/userprofile/avatar/{id}",
+            "method": "DELETE",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/avatar/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/userprofile/change-password",
+            "method": "PUT",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/change-password?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.private"
+            ]
+        },
+        {
+            "endpoint": "/v1/userprofile/change-email",
+            "method": "PUT",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/change-email?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.private"
+            ]
+        },
+        {
+            "endpoint": "/v1/admin/change-password",
+            "method": "PUT",
+            "host": "https://users.api.stg.cvnet.io",
+            "url_pattern": "/v1/users/learner/change-password?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.users.write",
+            "public_scopes": [
+                "users.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms",
+            "method": "GET",
+            "querystring_params": [
+                "query",
+                "cursor"
+            ],
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.read",
+            "public_scopes": [
+                "classrooms.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms/{id}",
+            "method": "GET",
+            "querystring_params": [
+                "query"
+            ],
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.read",
+            "public_scopes": [
+                "classrooms.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms/{id}",
+            "method": "PUT",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms/{id}",
+            "method": "DELETE",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms",
+            "method": "POST",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms/{id}/learners",
+            "method": "GET",
+            "querystring_params": [
+                "query",
+                "cursor"
+            ],
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/{id}/learners?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.read",
+            "public_scopes": [
+                "classrooms.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms/{id}/learners",
+            "method": "POST",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/{id}/learners?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms/{id}/learners/delete",
+            "method": "POST",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/{id}/learners/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms/{id}/classroomgroups",
+            "method": "GET",
+            "querystring_params": [
+                "query",
+                "cursor"
+            ],
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/{id}/classroomgroups?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.read",
+            "public_scopes": [
+                "classrooms.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms/{id}/classroomgroup",
+            "method": "POST",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/{id}/classroomgroup?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classrooms/{id}/classroomgroups/delete",
+            "method": "POST",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/{id}/classroomgroups/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/favourites/classrooms",
+            "method": "GET",
+            "querystring_params": [
+                "query",
+                "cursor"
+            ],
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/favourites?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.read",
+            "public_scopes": [
+                "classrooms.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/favourites/classrooms",
+            "method": "POST",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/favourites?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/favourites/classrooms/delete",
+            "method": "POST",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classrooms/favourites/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classroomgroups/{id}",
+            "method": "GET",
+            "querystring_params": [
+                "query"
+            ],
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classroomgroups/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.read",
+            "public_scopes": [
+                "classrooms.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/classroomgroups/{id}",
+            "method": "PUT",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classroomgroups/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classroomgroups/{id}",
+            "method": "DELETE",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classroomgroups/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classroomgroups/{id}/learners",
+            "method": "POST",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classroomgroups/{id}/learners?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/classroomgroups/{id}/learners/delete",
+            "method": "POST",
+            "host": "https://classroom.api.stg.cvnet.io",
+            "url_pattern": "/v1/classroomgroups/{id}/learners/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.classrooms.write",
+            "public_scopes": [
+                "classrooms.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/find/{id}",
+            "method": "GET",
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/shares/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.read",
+            "public_scopes": [
+                "share.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/links",
+            "method": "POST",
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/share-links?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.write",
+            "public_scopes": [
+                "share.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/links/{id}",
+            "method": "PUT",
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/share-links/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.write",
+            "public_scopes": [
+                "share.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/links/{id}",
+            "method": "GET",
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/share-links/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.read",
+            "public_scopes": [
+                "share.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/links/{id}/check-password",
+            "method": "POST",
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/share-links/{id}/check-password?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.read",
+            "public_scopes": [
+                "share.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/links",
+            "method": "GET",
+            "querystring_params": [
+                "objectId"
+            ],
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/share-links?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.read",
+            "public_scopes": [
+                "share.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/links/{id}",
+            "method": "DELETE",
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/share-links/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.write",
+            "public_scopes": [
+                "share.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/direct/find/{id}",
+            "method": "GET",
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/direct-shares/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.read",
+            "public_scopes": [
+                "share.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/direct/{id}/recipients",
+            "method": "POST",
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/direct-shares/{id}/recipients?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.write",
+            "public_scopes": [
+                "share.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/direct/{id}/recipients",
+            "method": "DELETE",
+            "querystring_params": [
+                "recipientId"
+            ],
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/direct-shares/{id}/recipients?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.write",
+            "public_scopes": [
+                "share.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/direct",
+            "method": "POST",
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/direct-shares?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.write",
+            "public_scopes": [
+                "share.write"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/direct/sent",
+            "method": "GET",
+            "querystring_params": [
+                "cursor",
+                "objectId"
+            ],
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/direct-shares/sent?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.read",
+            "public_scopes": [
+                "share.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/share/direct/received",
+            "method": "GET",
+            "querystring_params": [
+                "cursor",
+                "objectId"
+            ],
+            "host": "https://share.api.stg.cvnet.io",
+            "url_pattern": "/v1/direct-shares/received?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+            "internal_scope": "internal.share.read",
+            "public_scopes": [
+                "share.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/related-videos",
+            "method": "GET",
+            "querystring_params": [
+                "videoId",
+                "context.collectionType",
+                "context.collectionId",
+                "context.classificationId",
+                "limit",
+                "query"
+            ],
+            "host": "https://suggestion.api.stg.cvnet.io",
+            "url_pattern": "/v1/related-videos?userid={JWT.sub}&customerId={JWT.customer_id}",
+            "internal_scope": "internal.suggestions.read",
+            "public_scopes": [
+                "suggestions.read"
+            ]
+        },
+        {
+            "endpoint": "/v1/search",
+            "method": "GET",
+            "querystring_params": [
+                "*"
+            ],
+            "host": "https://search.api.stg.cvnet.io",
+            "url_pattern": "/v1/search/content?userid={JWT.sub}&customerId={JWT.customer_id}",
+            "internal_scope": "internal.search.query",
+            "public_scopes": [
+                "search.query"
+            ]
+        },
+        {
+            "endpoint": "/v1/search/tagsAndClassifications",
+            "method": "GET",
+            "querystring_params": [
+                "*"
+            ],
+            "host": "https://search.api.stg.cvnet.io",
+            "url_pattern": "/v1/search/content/tagsAndClassifications?userid={JWT.sub}&customerId={JWT.customer_id}",
+            "internal_scope": "internal.search.query",
+            "public_scopes": [
+                "search.query"
+            ]
+        },
+        {
+            "endpoint": "/v1/search/users",
+            "method": "GET",
+            "querystring_params": [
+                "*"
+            ],
+            "host": "https://search.api.stg.cvnet.io",
+            "url_pattern": "/v1/search/user?userid={JWT.sub}&customerId={JWT.customer_id}",
+            "internal_scope": "internal.search.query",
+            "public_scopes": [
+                "search.query"
+            ]
+        }
+    ]
+}

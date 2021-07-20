@@ -1,0 +1,42 @@
+{
+    "version": 2,
+    "port": {{ .service.port }},
+    "extra_config": {{ marshal .service.extra_config }},
+
+    "endpoints": [
+        {{ range .endpoints.endpoints }}
+        {
+            "endpoint": "{{ .endpoint }}",
+            "method": "{{ .method }}",
+            "output_encoding": "no-op",
+            "querystring_params": {{ marshal .querystring_params }},
+            "backend": [
+                {
+                    "host": [
+                        "{{ .host }}"
+                    ],
+                    "url_pattern": "{{ .url_pattern }}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "{{ $.auth.client_id }}",
+                            "client_secret": "{{ $.auth.client_secret }}",
+                            "token_url": "{{ $.auth.token_url }}",
+                            "scopes": "{{ .internal_scope }}"
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "{{ $.auth.jwk_url }}",
+                    "roles_key": "scope",
+                    "roles": {{ marshal .public_scopes }}
+                }
+            }
+        },
+        {{ end }}
+        {{ marshal .healthcheck }}
+    ]
+}

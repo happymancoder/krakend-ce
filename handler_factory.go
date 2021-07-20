@@ -12,7 +12,7 @@ import (
 	krakendrate "github.com/devopsfaith/krakend-ratelimit"
 	"github.com/devopsfaith/krakend-ratelimit/juju"
 	jujurouter "github.com/devopsfaith/krakend-ratelimit/juju/router"
-	"github.com/devopsfaith/krakend/router/httptreemux"
+
 	"github.com/luraproject/lura/config"
 	"github.com/luraproject/lura/logging"
 	"github.com/luraproject/lura/proxy"
@@ -23,8 +23,8 @@ import (
 // NewHandlerFactory returns a HandlerFactory with a rate-limit and a metrics collector middleware injected
 func NewHandlerFactory(logger logging.Logger, metricCollector *metrics.Metrics, rejecter jose.RejecterFactory) router.HandlerFactory {
 	handlerFactory := RateLimitHandlerFactory
-	handlerFactory = lua.HandlerFactory(logger, handlerFactory, httptreemux.ParamsExtractor)
-	handlerFactory = muxjose.HandlerFactory(handlerFactory, httptreemux.ParamsExtractor, logger, rejecter)
+	handlerFactory = lua.HandlerFactory(logger, handlerFactory, GorillaParamsExtractor)
+	handlerFactory = muxjose.HandlerFactory(handlerFactory, GorillaParamsExtractor, logger, rejecter)
 	handlerFactory = metricCollector.NewHTTPHandlerFactory(handlerFactory)
 	handlerFactory = opencensus.New(handlerFactory)
 	return handlerFactory
@@ -34,7 +34,7 @@ type handlerFactory struct{}
 
 // HandlerFactory is the out-of-the-box basic ratelimit handler factory using the default krakend endpoint
 // handler for the mux router
-var RateLimitHandlerFactory = NewRateLimiterMw(mux.CustomEndpointHandler(mux.NewRequestBuilder(httptreemux.ParamsExtractor)))
+var RateLimitHandlerFactory = NewRateLimiterMw(mux.CustomEndpointHandler(mux.NewRequestBuilder(GorillaParamsExtractor)))
 
 // NewRateLimiterMw builds a rate limiting wrapper over the received handler factory.
 func NewRateLimiterMw(next mux.HandlerFactory) mux.HandlerFactory {

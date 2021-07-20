@@ -1,0 +1,30 @@
+{
+    "port": 8080,
+    "timeout": "30000ms",
+    "extra_config": {
+        "github_com/devopsfaith/krakend-gologging": {
+            "level": "INFO",
+            "syslog": false,
+            "stdout": true
+        },
+        "github_com/devopsfaith/krakend-cors": {
+            "@comment": "Allow all origins and methods",
+            "allow_origins": [
+                "*"
+            ],
+            "allow_methods": [
+                "GET",
+                "HEAD",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "allow_headers": [
+                "Authorization",
+                "Content-Type",
+                "Origin"
+            ],
+            "max_age": "12h"
+        }
+    }
+}
