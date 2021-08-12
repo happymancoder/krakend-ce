@@ -6,9 +6,11 @@ package krakend
 import (
 	"net/http"
 	"strings"
+	"fmt"
+	"os"
 
 	gorilla "github.com/gorilla/mux"
-
+	"github.com/gorilla/handlers"
 	"github.com/luraproject/lura/logging"
 	"github.com/luraproject/lura/proxy"
 	"github.com/luraproject/lura/router"
@@ -35,13 +37,17 @@ func DefaultConfig(pf proxy.Factory, logger logging.Logger) mux.Config {
 
 func GorillaParamsExtractor(r *http.Request) map[string]string {
 	params := map[string]string{}
+	fmt.Println("Gorilla ParamsExtractor is called...........")
 	for key, value := range gorilla.Vars(r) {
 		params[strings.Title(key)] = value
+		fmt.Println(strings.Title(key))
 	}
 	return params
 }
 
 func GorillaNewEngine(r *gorilla.Router) GorillaEngine {
+	fmt.Println("Creating Gorilla Engine..............")
+	r.Use(loggingMiddleware)
 	return GorillaEngine{r}
 }
 
@@ -56,5 +62,10 @@ func (g GorillaEngine) Handle(pattern, method string, handler http.Handler) {
 
 // ServeHTTP implements the http:Handler interface from the stdlib
 func (g GorillaEngine) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	r.URL.Path = strings.TrimSuffix(r.URL.Path, "/")
 	g.r.ServeHTTP(mux.NewHTTPErrorInterceptor(w), r)
+}
+
+func loggingMiddleware(next http.Handler) http.Handler {
+	return handlers.LoggingHandler(os.Stdout, next)
 }

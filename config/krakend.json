@@ -7,6 +7,7 @@
         {{ range .endpoints.endpoints }}
         {
             "endpoint": "{{ .endpoint }}",
+            "headers_to_pass": ["sub", "customer_id", "country_code", "Content-Type", "Origin"],
             "method": "{{ .method }}",
             "output_encoding": "no-op",
             "querystring_params": {{ marshal .querystring_params }},
@@ -23,6 +24,14 @@
                             "client_secret": "{{ $.auth.client_secret }}",
                             "token_url": "{{ $.auth.token_url }}",
                             "scopes": "{{ .internal_scope }}"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
                         }
                     }
                 }
@@ -32,7 +41,12 @@
                     "alg": "RS256",
                     "jwk-url": "{{ $.auth.jwk_url }}",
                     "roles_key": "scope",
-                    "roles": {{ marshal .public_scopes }}
+                    "roles": {{ marshal .public_scopes }},
+                    "propagate-claims": [
+            ["sub", "sub"],
+            ["customer_id", "customer_id"],
+            ["country_code", "country_code"]
+          ]
                 }
             }
         },

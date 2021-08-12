@@ -4,7 +4,8 @@
     "extra_config": {
         "github_com/devopsfaith/krakend-gologging": {
             "level": "INFO",
-            "syslog": false,
+            "prefix": "[KRAKEND]",
+            "syslog": true,
             "stdout": true
         },
         "github_com/devopsfaith/krakend-cors": {

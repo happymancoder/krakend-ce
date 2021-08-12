@@ -1,7 +1,7 @@
 {
     "endpoints": [
         {
-            "endpoint": "/v1/me/permissions",
+            "endpoint": "/v1/classrooms/favourites",
             "method": "GET",
             "host": "https://permission.api.stg.cvnet.io",
             "url_pattern": "/v1/users/{JWT.sub}/permissions",
@@ -10,6 +10,36 @@
                 "user.permissions"
             ]
         },
+       {
+           "endpoint": "/v1/classrooms/users/{id}",
+           "method": "GET",
+           "host": "https://master.api.stg.cvnet.io",
+           "url_pattern": "/v2/objects/{id}",
+           "internal_scope": "read write cvmaster",
+           "public_scopes": [
+               "user.permissions"
+           ]
+       },
+       {
+           "endpoint": "/v1/classrooms/favourites",
+           "method": "POST",
+           "host": "https://classroom.api.stg.cvnet.io",
+           "url_pattern": "/v1/classrooms/favourites?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+           "internal_scope": "internal.classrooms.write",
+           "public_scopes": [
+               "classrooms.write"
+           ]
+       },
+       {
+           "endpoint": "/v1/classrooms/favourites/delete",
+           "method": "POST",
+           "host": "https://classroom.api.stg.cvnet.io",
+           "url_pattern": "/v1/classrooms/favourites/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+           "internal_scope": "internal.classrooms.write",
+           "public_scopes": [
+               "classrooms.write"
+           ]
+       },
         {
             "endpoint": "/v1/objects",
             "method": "GET",

@@ -1,0 +1,2770 @@
+{
+    "version": 2,
+    "port": 8080,
+    "extra_config": {"github_com/devopsfaith/krakend-cors":{"@comment":"Allow all origins and methods","allow_headers":["Authorization","Content-Type","Origin"],"allow_methods":["GET","HEAD","POST","PUT","DELETE"],"allow_origins":["*"],"max_age":"12h"},"github_com/devopsfaith/krakend-gologging":{"level":"DEBUG","prefix":"[KRAKEND]","stdout":true,"syslog":true}},
+
+    "endpoints": [
+        
+        {
+            "endpoint": "/v1/classrooms/favourites",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://permission.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/${JWT.sub}/permissions",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.permissions.user"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["user.permissions"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/objects",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["id","query","shareId"],
+            "backend": [
+                {
+                    "host": [
+                        "https://objects.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/objects?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.objects.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["objects.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/objects/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["query","shareId"],
+            "backend": [
+                {
+                    "host": [
+                        "https://objects.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/objects/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.objects.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["objects.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/objects/{id}/{memberType}",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["query","cursor","shareId"],
+            "backend": [
+                {
+                    "host": [
+                        "https://objects.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/objects/{id}/{memberType}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.objects.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["objects.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/objects/{id}/{memberType}",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://objects.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/objects/{id}/{memberType}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.objects.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["objects.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/objects/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://objects.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/objects/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.objects.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["objects.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/objects/{id}/{memberName}",
+            "headers_to_pass": ["x-user"],
+            "method": "DELETE",
+            "output_encoding": "no-op",
+            "querystring_params": ["memberId"],
+            "backend": [
+                {
+                    "host": [
+                        "https://objects.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/objects/{id}/{memberName}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.objects.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["objects.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/objects/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "DELETE",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://objects.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/objects/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.objects.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["objects.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/playlists/copy",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://objects.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/playlists/copy?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.objects.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["objects.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/users",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/users/delete",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/users/validate",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/validate?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/users",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/users/update-status",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/update-status?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/users/send-account-reminder",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/send-account-reminder?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/users/send-activation-email",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/send-activation-email?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/customers/{id}/users",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["query","cursor"],
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/customers/{id}/users?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/customers/{id}/yeargroups",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/customers/{id}/yeargroups?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/users/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/userprofile/avatar",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/avatar?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/userprofile/avatar/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "DELETE",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/avatar/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/userprofile/change-password",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/change-password?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.private"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/userprofile/change-email",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/change-email?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.private"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/admin/change-password",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://users.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/users/learner/change-password?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.users.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["users.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["query","cursor"],
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["query"],
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "DELETE",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms/{id}/learners",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["query","cursor"],
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/{id}/learners?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms/{id}/learners",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/{id}/learners?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms/{id}/learners/delete",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/{id}/learners/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms/{id}/classroomgroups",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["query","cursor"],
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/{id}/classroomgroups?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms/{id}/classroomgroup",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/{id}/classroomgroup?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classrooms/{id}/classroomgroups/delete",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/{id}/classroomgroups/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/favourites/classrooms",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["query","cursor"],
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/favourites?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/favourites/classrooms",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/favourites?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/favourites/classrooms/delete",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classrooms/favourites/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classroomgroups/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["query"],
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classroomgroups/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classroomgroups/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classroomgroups/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classroomgroups/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "DELETE",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classroomgroups/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classroomgroups/{id}/learners",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classroomgroups/{id}/learners?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/classroomgroups/{id}/learners/delete",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://classroom.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/classroomgroups/{id}/learners/delete?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.classrooms.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["classrooms.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/find/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/shares/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/links",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/share-links?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/links/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "PUT",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/share-links/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/links/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/share-links/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/links/{id}/check-password",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/share-links/{id}/check-password?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/links",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["objectId"],
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/share-links?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/links/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "DELETE",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/share-links/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/direct/find/{id}",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/direct-shares/{id}?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/direct/{id}/recipients",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/direct-shares/{id}/recipients?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/direct/{id}/recipients",
+            "headers_to_pass": ["x-user"],
+            "method": "DELETE",
+            "output_encoding": "no-op",
+            "querystring_params": ["recipientId"],
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/direct-shares/{id}/recipients?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/direct",
+            "headers_to_pass": ["x-user"],
+            "method": "POST",
+            "output_encoding": "no-op",
+            "querystring_params": null,
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/direct-shares?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.write"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.write"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/direct/sent",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["cursor","objectId"],
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/direct-shares/sent?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/share/direct/received",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["cursor","objectId"],
+            "backend": [
+                {
+                    "host": [
+                        "https://share.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/direct-shares/received?userid={JWT.sub}&customerId={JWT.customer_id}&countryCode={JWT.country_code}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.share.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["share.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/related-videos",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["videoId","context.collectionType","context.collectionId","context.classificationId","limit","query"],
+            "backend": [
+                {
+                    "host": [
+                        "https://suggestion.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/related-videos?userid={JWT.sub}&customerId={JWT.customer_id}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.suggestions.read"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["suggestions.read"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/search",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["*"],
+            "backend": [
+                {
+                    "host": [
+                        "https://search.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/search/content?userid={JWT.sub}&customerId={JWT.customer_id}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.search.query"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["search.query"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/search/tagsAndClassifications",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["*"],
+            "backend": [
+                {
+                    "host": [
+                        "https://search.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/search/content/tagsAndClassifications?userid={JWT.sub}&customerId={JWT.customer_id}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.search.query"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["search.query"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {
+            "endpoint": "/v1/search/users",
+            "headers_to_pass": ["x-user"],
+            "method": "GET",
+            "output_encoding": "no-op",
+            "querystring_params": ["*"],
+            "backend": [
+                {
+                    "host": [
+                        "https://search.api.stg.cvnet.io"
+                    ],
+                    "url_pattern": "/v1/search/user?userid={JWT.sub}&customerId={JWT.customer_id}",
+                    "encoding": "no-op",
+                    "extra_config": {
+                        "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+                            "client_id": "45e21980426341c3a923",
+                            "client_secret": "289d7a9692574dd7aacc3ddfd02c663992487e5c",
+                            "token_url": "https://staging-auth.clickviewapp.com/connect/token",
+                            "scopes": "internal.search.query"
+                        },
+			"github.com/devopsfaith/krakend-lua/proxy/backend": {
+                            "sources": [
+				 "config/lua/json.lua",
+                                "config/lua/base64.lua",
+                                "config/lua/jwt_claims.lua"
+                            ],
+                            "pre": "replace_path_with_jwt_claims3(request.load())",
+                            "live": true,
+                            "allow_open_libs": true
+                        }
+                    }
+                }
+            ],
+            "extra_config": {
+                "github.com/devopsfaith/krakend-jose/validator": {
+                    "alg": "RS256",
+                    "jwk-url": "https://staging-auth.clickviewapp.com/.well-known/openid-configuration/jwks",
+                    "roles_key": "scope",
+                    "roles": ["search.query"],
+                    "propagate-claims": [
+            ["sub", "x-user"]
+          ]
+                }
+            }
+        },
+        
+        {"backend":[{"host":["http://localhost:8080"],"url_pattern":"/__health"}],"endpoint":"/_diagnostics/heartbeat"}
+    ]
+}

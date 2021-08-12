@@ -53,5 +53,7 @@ func main() {
 		})
 	}
 
+	config.RoutingPattern = config.BracketsRouterPatternBuilder
+	
 	cmd.Execute(cfg, krakend.NewExecutor(ctx))
 }

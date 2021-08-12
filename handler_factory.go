@@ -17,11 +17,10 @@ import (
 	"github.com/luraproject/lura/logging"
 	"github.com/luraproject/lura/proxy"
 	"github.com/luraproject/lura/router/mux"
-	router "github.com/luraproject/lura/router/mux"
 )
 
 // NewHandlerFactory returns a HandlerFactory with a rate-limit and a metrics collector middleware injected
-func NewHandlerFactory(logger logging.Logger, metricCollector *metrics.Metrics, rejecter jose.RejecterFactory) router.HandlerFactory {
+func NewHandlerFactory(logger logging.Logger, metricCollector *metrics.Metrics, rejecter jose.RejecterFactory) mux.HandlerFactory {
 	handlerFactory := RateLimitHandlerFactory
 	handlerFactory = lua.HandlerFactory(logger, handlerFactory, GorillaParamsExtractor)
 	handlerFactory = muxjose.HandlerFactory(handlerFactory, GorillaParamsExtractor, logger, rejecter)
@@ -67,7 +66,7 @@ func NewEndpointRateLimiterMw(tb juju.Limiter) EndpointMw {
 	return func(next http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
 			if !tb.Allow() {
-				http.Error(w, krakendrate.ErrLimited.Error(), 503)
+				http.Error(w, krakendrate.ErrLimited.Error(), http.StatusServiceUnavailable)
 				return
 			}
 
@@ -107,6 +106,6 @@ func NewTokenLimiterMw(tokenExtractor TokenExtractor, limiterStore krakendrate.L
 	}
 }
 
-func (h handlerFactory) NewHandlerFactory(l logging.Logger, m *metrics.Metrics, r jose.RejecterFactory) router.HandlerFactory {
+func (h handlerFactory) NewHandlerFactory(l logging.Logger, m *metrics.Metrics, r jose.RejecterFactory) mux.HandlerFactory {
 	return NewHandlerFactory(l, m, r)
 }

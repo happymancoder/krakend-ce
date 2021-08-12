@@ -12,6 +12,7 @@ import (
 func NewEngine(cfg config.ServiceConfig, logger logging.Logger, w io.Writer) GorillaEngine {
 	return GorillaNewEngine(gorilla.NewRouter())
 }
+//.StrictSlash(true)
 
 type engineFactory struct{}
 

@@ -36,7 +36,6 @@ import (
 	"github.com/luraproject/lura/logging"
 	"github.com/luraproject/lura/proxy"
 	krakendrouter "github.com/luraproject/lura/router"
-	"github.com/luraproject/lura/router/httptreemux"
 	router "github.com/luraproject/lura/router/mux"
 	server "github.com/luraproject/lura/transport/http/server/plugin"
 )
@@ -155,7 +154,7 @@ func (e *ExecutorBuilder) NewCmdExecutor(ctx context.Context) cmd.Executor {
 			logger.Warning("bloomFilter:", err.Error())
 		}
 
-		e.Middlewares = lua.RegisterMiddleware(logger, cfg.ExtraConfig, httptreemux.ParamsExtractor, e.Middlewares)
+		e.Middlewares = lua.RegisterMiddleware(logger, cfg.ExtraConfig, GorillaParamsExtractor, e.Middlewares)
 		e.Middlewares = append(e.Middlewares, httpsecure.NewSecureMw(cfg.ExtraConfig))
 
 		// setup the krakend router
